@@ -21,14 +21,16 @@ export class AppController {
     customerData: {
       first_name: string;
       last_name: string;
+      email: string;
       address: Prisma.addressCreateNestedOneWithoutCustomerInput;
       store: Prisma.storeCreateNestedOneWithoutCustomerInput;
     },
   ): Promise<CustomerModel> {
-    const { first_name, last_name, address, store } = customerData;
+    const { first_name, last_name, email, address, store } = customerData;
     return this.customerService.createCustomer({
       first_name,
       last_name,
+      email,
       address,
       store,
     });
@@ -37,7 +39,7 @@ export class AppController {
   // - On veut d'abord trouver un client en particulier avant de pouvoir le modifier :
   @Get('customer/:id')
   async getCustomerById(@Param('id') id: number): Promise<CustomerModel> {
-    return this.customerService.findOneCustomer({ customer_id: id });
+    return this.customerService.findOneCustomer({ customer_id: Number(id) });
   }
 
   // -- Endpoint pour modifier un client
@@ -46,11 +48,14 @@ export class AppController {
     @Param('id') id: number,
     @Body()
     updateData: {
+      first_name: string;
+      last_name: string;
+      address: Prisma.addressUpdateOneRequiredWithoutCustomerNestedInput;
       store: Prisma.storeUpdateOneRequiredWithoutCustomerNestedInput;
     },
   ): Promise<CustomerModel> {
     return this.customerService.updateCustomer({
-      where: { customer_id: id },
+      where: { customer_id: Number(id) },
       data: updateData,
     });
   }
