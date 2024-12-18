@@ -1,46 +1,63 @@
-// import { Injectable } from '@nestjs/common';
-// import { Cron } from '@nestjs/schedule'; // Import du décorateur Cron
-// import { PrismaService } from '../prisma.service';
-// // import { formatDistance } from 'date-fns'; // Pour formater les dates
+import { Injectable, Logger } from '@nestjs/common';
+import { Cron, SchedulerRegistry } from '@nestjs/schedule';
+import { PrismaService } from 'src/prisma/prisma.service';
 
-// @Injectable()
-// export class ReminderService {
-//   constructor(private readonly prisma: PrismaService) {}
+import { adjustDate } from 'src/functions/adjustDate';
 
-//   // Cette méthode s'exécutera chaque jour à 9h
-//   @Cron('0 9 * * *')
-//   async checkForUpcomingReturns() {
-//     const today = new Date();
-//     const fiveDaysLater = new Date(today.getTime() + 5 * 24 * 60 * 60 * 1000); // 5 jours plus tard
-//     const threeDaysLater = new Date(today.getTime() + 3 * 24 * 60 * 60 * 1000); // 3 jours plus tard
+@Injectable()
+export class ReminderService {
+  constructor(
+    private readonly prisma: PrismaService,
+    private scheduleRegistery: SchedulerRegistry,
+  ) {}
+  private readonly logger = new Logger(ReminderService.name);
 
-//     // Récupérer les utilisateurs avec des prêts dont la date de retour est dans 5 ou 3 jours
-//     const users = await this.prisma.customer.findMany({
-//       include: {
-//         loans: true,
-//       },
-//     });
+  @Cron('0 0 12 * * *', {
+    name: 'reminders',
+  })
+  async checkForUpcomingReturns() {
+    console.log('Cron Job exécuté');
 
-//     for (const user of users) {
-//       for (const loan of user.loans) {
-//         const daysUntilReturn = Math.floor(
-//           (new Date(loan.returnDate).getTime() - today.getTime()) /
-//             (1000 * 60 * 60 * 24),
-//         );
+    const today = new Date();
+    const inFiveDays = adjustDate(today, 5, 23, 59, 59, 999);
+    const inThreeDays = adjustDate(today, 3, 23, 59, 59, 999);
 
-//         if (daysUntilReturn === 5) {
-//           this.sendEmailReminder(user, 5); // Rappel pour 5 jours
-//         } else if (daysUntilReturn === 3) {
-//           this.sendEmailReminder(user, 3); // Rappel pour 3 jours
-//         }
-//       }
-//     }
-//   }
+    const allRentals = await this.prisma.rental.findMany({
+      where: {
+        OR: [
+          {
+            return_date: inThreeDays,
+          },
+          {
+            return_date: inFiveDays,
+          },
+        ],
+      },
+    });
 
-//   // Simuler l'envoi d'un email avec un console.log
-//   sendEmailReminder(user, daysBeforeReturn) {
-//     console.log(
-//       `Rappel pour ${user.name} (${user.email}): Votre livre est à rendre dans ${daysBeforeReturn} jours.`,
-//     );
-//   }
-// }
+    for (const rental of allRentals) {
+      if (rental.return_date.getTime() === inThreeDays.getTime())
+        console.log(
+          `Dernier rappel à l'intention du client n° ${rental.customer_id} : la date de retour de votre location ${rental.rental_id} est dans 3 jours.`,
+        );
+      else if (rental.return_date.getTime() === inFiveDays.getTime())
+        console.log(
+          `Ceci est un rappel à l'intention du client n° ${rental.customer_id} : la date de retour de votre location ${rental.rental_id} est dans 5 jours.`,
+        );
+    }
+  }
+
+  getCrons() {
+    const jobs = this.scheduleRegistery.getCronJobs();
+    jobs.forEach((value, key) => {
+      let next;
+      try {
+        next = value.nextDates();
+      } catch (error) {
+        next = error;
+      }
+      //   this.logger.log(`job : ${key} -> next : ${next}`);
+      console.log(`job : ${key} -> next : ${next}`);
+    });
+  }
+}

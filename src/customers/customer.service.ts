@@ -13,15 +13,6 @@ export class CustomerService {
     });
   }
 
-  // Trouver le client à modifier
-  async findOneCustomer(
-    customerWhereUniqueInput: Prisma.customerWhereUniqueInput,
-  ): Promise<customer | null> {
-    return this.prisma.customer.findUnique({
-      where: customerWhereUniqueInput,
-    });
-  }
-
   // Modifier un client
   async updateCustomer(params: {
     where: Prisma.customerWhereUniqueInput;

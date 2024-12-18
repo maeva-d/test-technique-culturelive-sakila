@@ -7,22 +7,32 @@ import {
   Param,
   BadRequestException,
 } from '@nestjs/common';
+import { AppService } from './app.service';
 import { CustomerService } from './customers/customer.service';
 import { RentalService } from './rentals/rental.service';
+import { ReminderService } from './tasks/reminder.service';
 import {
   customer as CustomerModel,
   rental as RentalModel,
   Prisma,
 } from '@prisma/client';
 
+import { adjustDate } from './functions/adjustDate';
+
 @Controller()
 export class AppController {
   constructor(
+    private readonly appService: AppService,
     private readonly customerService: CustomerService,
     private readonly rentalService: RentalService,
+    private readonly reminderService: ReminderService,
   ) {}
 
-  // -- Endpoint pour ajouter un client
+  @Get()
+  getHello(): string {
+    return this.appService.getHello();
+  }
+
   @Post('customer')
   async createCustomerRoute(
     @Body()
@@ -44,13 +54,6 @@ export class AppController {
     });
   }
 
-  // - On veut d'abord trouver un client en particulier avant de pouvoir le modifier :
-  @Get('customer/:id')
-  async getCustomerById(@Param('id') id: number): Promise<CustomerModel> {
-    return this.customerService.findOneCustomer({ customer_id: Number(id) });
-  }
-
-  // -- Endpoint pour modifier un client
   @Patch('customer/:id')
   async updateCustomerRoute(
     @Param('id') id: number,
@@ -58,6 +61,7 @@ export class AppController {
     updateData: {
       first_name: string;
       last_name: string;
+      email: string;
       address: Prisma.addressUpdateOneRequiredWithoutCustomerNestedInput;
       store: Prisma.storeUpdateOneRequiredWithoutCustomerNestedInput;
     },
@@ -68,7 +72,13 @@ export class AppController {
     });
   }
 
-  // -- Endpoint pour effectuer une location :
+  // -- Permettra d'obtenir les locations ciblées en fonction de leur date de retour, pour ensuite envoyer les mails en conséquence
+  // -- Toutes les dates de retours auront la même heure de rendue, à la seconde près, pour faciliter le fetch des locations selon leur date retour et d'envoyer un mail selon si la date de retour est dans 5 ou 3 jours.
+  @Get('rental')
+  async findAllRentalsRoute(): Promise<any> {
+    return this.reminderService.checkForUpcomingReturns();
+  }
+
   @Post('rental')
   async createRentalRoute(
     @Body()
@@ -81,16 +91,11 @@ export class AppController {
     },
   ): Promise<RentalModel> {
     const { rental_date, return_date, customer, inventory, staff } = rentalData;
-
     const returnDate = new Date(return_date);
+    returnDate.setHours(23, 59, 59, 999);
 
-    const oneWeekLater = new Date(rental_date);
-    oneWeekLater.setDate(oneWeekLater.getDate() + 7);
-    // oneWeekLater.setHours(0, 0, 0, 0); // Définir l'heure à partir de minuit
-
-    const threeWeeksLater = new Date(rental_date);
-    threeWeeksLater.setDate(threeWeeksLater.getDate() + 21);
-    // threeWeeksLater.setHours(23, 59, 59, 0); // Définir l'heure juste avant minuit
+    const oneWeekLater = adjustDate(rental_date, 7, 0, 0, 0, 0);
+    const threeWeeksLater = adjustDate(rental_date, 21, 23, 59, 59, 999);
 
     if (returnDate < oneWeekLater || returnDate > threeWeeksLater) {
       throw new BadRequestException(
@@ -100,7 +105,7 @@ export class AppController {
 
     return this.rentalService.createRental({
       rental_date,
-      return_date,
+      return_date: returnDate,
       customer,
       inventory,
       staff,

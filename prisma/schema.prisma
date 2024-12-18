@@ -21,7 +21,7 @@ model address {
   address_id  Int        @id @default(autoincrement())
   address     String     @db.VarChar(50)
   address2    String?    @db.VarChar(50)
-  district    String?     @db.VarChar(20)
+  district    String?    @db.VarChar(20)
   city_id     Int
   postal_code String?    @db.VarChar(10)
   phone       String     @db.VarChar(20)
@@ -64,7 +64,7 @@ model customer {
   store_id         Int
   first_name       String             @db.VarChar(45)
   last_name        String             @db.VarChar(45)
-  email            String            @db.VarChar(50)
+  email            String             @db.VarChar(50)
   address_id       Int
   activebool       Boolean            @default(true)
   create_date      DateTime           @default(dbgenerated("('now'::text)::date")) @db.Date
@@ -280,10 +280,10 @@ model payment_p2007_06 {
 
 model rental {
   rental_id        Int                @id @default(autoincrement())
-  rental_date      DateTime           @db.Timestamp(6)
+  rental_date      DateTime           @db.Timestamptz(6)
   inventory_id     Int
   customer_id      Int
-  return_date      DateTime?          @db.Timestamp(6)
+  return_date      DateTime?          @db.Timestamptz(6)
   staff_id         Int
   last_update      DateTime           @default(now()) @db.Timestamp(6)
   payment          payment[]

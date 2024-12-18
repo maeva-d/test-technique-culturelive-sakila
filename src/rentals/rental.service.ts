@@ -6,7 +6,6 @@ import { rental, Prisma } from '@prisma/client';
 export class RentalService {
   constructor(private prisma: PrismaService) {}
 
-  // Effectuer une location :
   async createRental(data: Prisma.rentalCreateInput): Promise<rental> {
     return this.prisma.rental.create({
       data,
