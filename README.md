@@ -1,100 +1,166 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# test-technique-culturelive
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Fonctionnalités
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+- Création et modification d'un client
+- Effectuer une location
+- Simulation de mails tous les 3 et 5 jours à 12h avant la date de retour d'une location en cours.
 
-## Description
+## Prérequis techniques
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- [Node.js](https://nodejs.org/en/download/) (v16+)
+- [NestJS](https://nestjs.com/)
+- [Prisma](https://www.prisma.io/docs/getting-started/setup-prisma/add-to-existing-project/relational-databases/connect-your-database-typescript-postgresql)
+- [Postman](https://www.postman.com/)
+- [PostgreSQL](https://www.postgresql.org/download/)
+- [npm](https://www.npmjs.com/)
 
-## Project setup
+## Installation
 
-```bash
-$ npm install
+1. Cloner le repo :
+
 ```
 
-## Compile and run the project
+git clone https://github.com/maeva-d/test-technique-culturelive-sakila.git
 
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
 ```
 
-## Run tests
+2. Accéder au dossier du projet :
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
 ```
 
-## Deployment
+cd nestjs-prisma
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g mau
-$ mau deploy
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+3. Installer les dépendances :
 
-## Resources
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+npm install
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+```
 
-## Support
+4 Copier-coller dans le query tool de Pg Admin 4 (ou un autre client), le script du fichier SQL suivant, se trouvant dans le dossier ``postgre-sakila-db```:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```
+postgre-sakila-schema.sql
+```
 
-## Stay in touch
+Exectuer le script
+Puis reproduire la procédure ci-dessus avec le fichier `
+postgre-sakila-insert-data-using-copy.sql`
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+5. Configurer les variables d'environnement dans un fichier `.env` pour se connecter à sa base de données PostgreSQL :
 
-## License
+```env
+DATABASE_URL : <postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=SCHEMA>
+```
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
-# test-technique-culturelive-sakila
+6. Lancer l'application :
+
+```
+
+npm run start
+
+```
+
+## Endpoints de l'API
+
+### 1. **Création d'un client**
+
+- **URL**: `/customer`
+- **Method**: `POST`
+- **Description**: Création d'un nouveau client. Le champs "email" qui était facultatif dans la table SQL ``rental``` est maintenant obligatoire pour permettre une bonne implémentation des tâches planifiées.
+  Pour faciliter la création de clients factices, les clés "address" et "store" peuvent être liées à des données qui existent déjà à l'aide de foreign keys :
+- **Request Body**:
+
+  ```json
+  {
+    "last_name": "Doe",
+    "ffirst_name": "John",
+    "email": "john.doe@example.com",
+    "address": {
+      "connect": {
+        "address_id": 5
+      }
+    },
+    "store": {
+      "connect": {
+        "store_id": 2
+      }
+    }
+  }
+  ```
+
+- **Réponse attendue**:
+  - 201: Client créé avec succès
+  - 400: Erreur dans le body (ex. clé manquante)
+  <!-- - 409: Erreur de validation (ex. email déjà utilisé) -->
+
+### 2. **Modifier un client**
+
+- **URL**: `/customer/:id`
+- **Method**: `PATCH`
+- **Description**: Modifier un client en particuler.
+- **Request Body** (paramètres optionnels à mettre à jour):
+
+  ```json
+  {
+    "first_name": "Jane",
+    "email": "jane.doe@example.com"
+  }
+  ```
+
+- **Response**:
+  - 200: Succès de la modification
+
+### 3. **Obtenir à l'aide de filtres les locations dont la date de retour est proche**
+
+- **URL**: `/rental`
+- **Method**: `GET`
+- **Description**: Récupère les locations avec une date de retour correspondant à 3 ou 5 jours à partir d'aujourd'hui.
+
+  ```
+
+  ```
+
+- **Response**:
+  - 200: Succès de la recuperation de données
+
+### 4. **Effectuer une location**
+
+- **URL**: `/rental`
+- **Method**: `POST`
+- **Description**: Créer une nouvelle location de film.
+  La date de retour devra être supérieure à 1 semaines et inférieure à 3 semaines. Elle sera ensuite sauvegardée en BDD avec une heure fixe (23h 59min 59s 999ms) pour faciliter la récupération des locations par date de retour.
+- **Request Body** :
+  ```js
+  {
+    "rental_date" : "2024-12-19T23:01:40Z",
+    "return_date" : "2024-12-29T20:38:42Z",
+    "customer" : {
+        "connect" : {
+            "customer_id" : 600
+        }
+    },
+    "inventory" : {
+        "connect" : {
+            "inventory_id" : 1
+        }
+    },
+    "staff" : {
+        "connect" : {
+            "staff_id" : 2
+        }
+    }
+  }
+  ```
+- **Response**:
+
+  - 201: Succès de la création de la location
+  - 400: Erreur dans le body (ex. clé manquante)
+  - 404: (ex. foreign keys avec des id inexistants)
+
+- **Response**:
+  - 201: Location créée avec succès

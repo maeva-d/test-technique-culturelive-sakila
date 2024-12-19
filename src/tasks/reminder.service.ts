@@ -48,16 +48,17 @@ export class ReminderService {
   }
 
   getCrons() {
-    const jobs = this.scheduleRegistery.getCronJobs();
-    jobs.forEach((value, key) => {
-      let next;
-      try {
-        next = value.nextDates();
-      } catch (error) {
-        next = error;
-      }
-      //   this.logger.log(`job : ${key} -> next : ${next}`);
-      console.log(`job : ${key} -> next : ${next}`);
-    });
+    const jobs = this.scheduleRegistery.getCronJob('reminders');
+    console.log(jobs);
+    //     jobs.forEach((value, key) => {
+    //       let next;
+    //       try {
+    //         next = value.nextDates();
+    //       } catch (error) {
+    //         next = error;
+    //       }
+    //       //   this.logger.log(`job : ${key} -> next : ${next}`);
+    //       console.log(`job : ${key} -> next : ${next}`);
+    //     });
   }
 }
