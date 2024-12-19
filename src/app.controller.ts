@@ -35,7 +35,7 @@ export class AppController {
 
   // --- ENDPOINTS --- //
 
-  @Post('customers')
+  @Post('customer')
   async createCustomerRoute(
     @Body()
     customerData: {
