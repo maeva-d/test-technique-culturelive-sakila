@@ -44,17 +44,17 @@ npm install
 4. Copier-coller dans le query tool de pgAdmin 4 (ou un autre client), le script du fichier SQL "postgre-sakila-schema.sql", se trouvant dans le dossier "postgre-sakila-db", puis l'executer.
    <br/>
 
-Reproduire la procédure ci-dessus avec le fichier "postgre-sakila-insert-data-using-copy.sql"
-<br/>
-<br/>
+5. Reproduire la procédure ci-dessus avec le fichier "postgre-sakila-insert-data-using-copy.sql"
+   <br/>
+   <br/>
 
-5. Configurer les variables d'environnement dans un fichier `.env` pour se connecter à sa base de données PostgreSQL :
+6. Configurer les variables d'environnement dans un fichier `.env` pour se connecter à sa base de données PostgreSQL :
 
 ```env
 DATABASE_URL : <postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=SCHEMA>
 ```
 
-6. Les entités prisma situées dans le fichier "schema.prisma" ont été créées automatiquement, à partir du schéma SQL de Sakila, par [introspection](https://www.prisma.io/docs/getting-started/setup-prisma/add-to-existing-project/relational-databases/introspection-typescript-postgresql). Pour prendre en compte le fuseau horaire du client, il faudra modifier la table SQL "rental" en exécutant le script suivant :
+7. Les entités prisma situées dans le fichier "schema.prisma" ont été créées automatiquement, à partir du schéma SQL de Sakila, par [introspection](https://www.prisma.io/docs/getting-started/setup-prisma/add-to-existing-project/relational-databases/introspection-typescript-postgresql). Pour prendre en compte le fuseau horaire du client, il faudra modifier la table SQL "rental" en exécutant le script suivant :
 
 ```
 ALTER TABLE rental
@@ -69,7 +69,7 @@ ALTER TABLE customer
 ALTER COLUMN email SET NOT NULL;
 ```
 
-7. Synchroniser son nouveau schéma SQL avec son schéma prisma actuelle grâce à la commande suivante :
+8. Synchroniser son nouveau schéma SQL avec son schéma prisma actuelle grâce à la commande suivante :
 
 ```
 
@@ -84,7 +84,7 @@ npx prisma generate
 
 ```
 
-8. Lancer l'application :
+9. Lancer l'application :
 
 ```
 
