@@ -41,13 +41,15 @@ npm install
 
 ```
 
-4 Copier-coller dans le query tool de Pg Admin 4 (ou un autre client), le script du fichier SQL suivant, se trouvant dans le dossier ``postgre-sakila-db```:
+4. Copier-coller dans le query tool de Pg Admin 4 (ou un autre client), le script du fichier SQL suivant, se trouvant dans le dossier `
+postgre-sakila-db`:
 
 ```
 postgre-sakila-schema.sql
 ```
 
 Exectuer le script
+<br/>
 Puis reproduire la procédure ci-dessus avec le fichier `
 postgre-sakila-insert-data-using-copy.sql`
 
@@ -57,6 +59,8 @@ postgre-sakila-insert-data-using-copy.sql`
 DATABASE_URL : <postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=SCHEMA>
 ```
 
+Il faudra ensuite suivre la [documentation de prisma](https://www.prisma.io/docs/getting-started/setup-prisma/add-to-existing-project/relational-databases/introspection-typescript-postgresql) pour créer les entités correspondant à notre schéma SQL automatiquement, par <bold>introspection</bold> .
+
 6. Lancer l'application :
 
 ```
@@ -64,6 +68,42 @@ DATABASE_URL : <postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=SCHEMA>
 npm run start
 
 ```
+
+## Architecture du projet
+
+```scss
+nestjs-prisma
+│
+├───prisma/
+│	│
+│	├───migrations/
+│	│   ├───0_init/
+│
+├───src/
+│	│
+│	├───customers/
+│	│
+│	├───functions/
+│	│
+│	├───prisma/
+│	│
+│	├───rentals/
+│	│
+| └───tasks/
+│
+├───app.controller.spec.ts
+│
+├───app.controller.ts
+│
+├───app.module.ts
+│
+├───app.service.ts
+│
+└── main.ts
+
+```
+
+Comme il s'agit d'un petit projet, tous les endpoints seront dans le fichier app.controller.ts. Les fichiers customers, rentals et tasks ne contiennent que des services.
 
 ## Endpoints de l'API
 
