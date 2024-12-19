@@ -41,17 +41,11 @@ npm install
 
 ```
 
-4. Copier-coller dans le query tool de Pg Admin 4 (ou un autre client), le script du fichier SQL suivant, se trouvant dans le dossier `
-postgre-sakila-db`:
-
-```
-postgre-sakila-schema.sql
-```
-
-Exectuer le script
-<br/>
-Puis reproduire la procédure ci-dessus avec le fichier `
-postgre-sakila-insert-data-using-copy.sql`
+4. Copier-coller dans le query tool de Pg Admin 4 (ou un autre client), le script du fichier SQL "postgre-sakila-schema.sql", se trouvant dans le dossier "postgre-sakila-db".
+   <br/>
+   Exectuer le script
+   <br/>
+   Puis reproduire la procédure ci-dessus avec le fichier "postgre-sakila-insert-data-using-copy.sql"
 
 5. Configurer les variables d'environnement dans un fichier `.env` pour se connecter à sa base de données PostgreSQL :
 
