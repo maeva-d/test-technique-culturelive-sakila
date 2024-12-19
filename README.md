@@ -97,13 +97,13 @@ nestjs-prisma
 
 ```
 
-Comme il s'agit d'un petit projet, tous les endpoints seront dans le fichier app.controller.ts. Les fichiers customers, rentals et tasks ne contiennent que des services.
+Comme il s'agit d'un petit projet, tous les endpoints seront dans le fichier app.controller.ts. Les dossiers customers, rentals et tasks ne contiennent que des services.
 
 ## Endpoints de l'API
 
 ### 1. **Création d'un client**
 
-- **URL**: `/customer`
+- **URL**: `/customers`
 - **Method**: `POST`
 - **Description**: Création d'un nouveau client. Le champs "email" qui était facultatif dans la table SQL ``rental``` est maintenant obligatoire pour permettre une bonne implémentation des tâches planifiées.
   Pour faciliter la création de clients factices, les clés "address" et "store" peuvent être liées à des données qui existent déjà à l'aide de foreign keys :
@@ -151,7 +151,7 @@ Comme il s'agit d'un petit projet, tous les endpoints seront dans le fichier app
 
 ### 3. **Obtenir à l'aide de filtres les locations dont la date de retour est proche**
 
-- **URL**: `/rental`
+- **URL**: `/rentals`
 - **Method**: `GET`
 - **Description**: Récupère les locations avec une date de retour correspondant à 3 ou 5 jours à partir d'aujourd'hui.
 
@@ -167,7 +167,7 @@ Comme il s'agit d'un petit projet, tous les endpoints seront dans le fichier app
 - **URL**: `/rental`
 - **Method**: `POST`
 - **Description**: Créer une nouvelle location de film.
-  La date de retour devra être supérieure à 1 semaines et inférieure à 3 semaines. Elle sera ensuite sauvegardée en BDD avec une heure fixe (23h 59min 59s 999ms) pour faciliter la récupération des locations par date de retour.
+  La date de retour devra être supérieure à 1 semaine et inférieure à 3 semaines. Elle sera ensuite sauvegardée en BDD avec une heure fixe (23h 59min 59s 999ms) pour faciliter la récupération des locations par date de retour.
 - **Request Body** :
   ```js
   {
@@ -198,3 +198,9 @@ Comme il s'agit d'un petit projet, tous les endpoints seront dans le fichier app
 
 - **Response**:
   - 201: Location créée avec succès
+
+#### Le mot de la fin:
+
+```
+Q2UgdGVzdCB0ZWNobmlxdWUgw6l0YWl0IHZyYWltZW50IGZ1biAhIEonYWkgYmVhdWNvdXAgYXBwcsOpY2nDqSBsZSBtaW5pIGpldSBkZSBwaXN0ZSBwb3VyIGFmZmljaGVyIGwnZXhlcmNpY2UsIGV0IGwnZXhlcmNpY2UgbHVpLW3Dqm1lIHF1aSBkZW1hbmRlIGRlIHLDqWZsw6ljaGlyIHBvdXIgdHJvdXZlciBkZXMgc29sdXRpb25zIHN1ciBkZXMgY2FzIGRlIGxhIHZpZSByw6llbGxlLiBDYSBmYWl0IHBsYWlzaXIgKGV0IMOnYSBjaGFuZ2UgZGVzIHRlc3RzIHRlY2huaXF1ZXMgZGUgMTAgbWludXRlcyBhdmVjIDE1IGV4ZXJjaWNlcyBkJ2FsZ28gw6AgZmFpcmUpLiBKZSBuZSBtYcOudHJpc2UgYXVjdW5lIGRlcyB0ZWNobm9zIGRlbWFuZMOpZXMgZGFucyBsZSB0ZXN0LCBuaSBOZXN0SlMsIG5pIFByaXNtYSwgbmkgU1FMIChwYXMgZW5jb3JlISBBcHByZW5kcmUgbGUgU1FMIGZhaXQgcGFydGl0IGR1IHByb2dyYW1tZSBkZSBtb24gYWx0ZXJuYW5jZSkuIEplIG4nYWkgamFtYWlzIGZhaXQgZGUgY3JvbiBqb2Igbm9uIHBsdXMuIEonYWkgYXBwcmlzIHBsZWluIGRlIGNob3NlcyEgTcOqbWUgc2kgamUgbidhaSBwYXMgdG91dCBmYWlyZSAoc3VydG91dCBwYXIgbWFucXVlIGRlIHRlbXBzLiBOb24gcGFzIHF1ZSBsZSBkw6lsYWkgbifDqXRhaXQgcGFzIHN1ZmZpc2FudC4gQydlc3QganVzdGUgcXUnYXUgZMOpcGFydCwgaidhdmFpcyBsdSBxdWUgbGUgcHJvamV0IGRldmFpdCDDqnRyZSBpbml0aWFsaXPDqSBhdmVjIE5lWHQgYXUgbGlldSBkZSBOZVN0Li4uIFB1aXMgaidhaSBjb21wcmlzLi4uIFF1ZWxxdWVzIGpvdXJzIGF2YW50IGxlIGTDqWxhaSBsaW1pdGUgZGUgcmVuZHUuLi4pLg0KRW4gdG91dCBjYXMsIGonYWkgZMOpY291dmVydCB1biBmcmFtZXdvcmsgdnJhaW1lbnQgcHVpc3NhbnQuIEonYWkgcHUgYXVzc2kgdGVzdMOpIG1hIGNhcGFjaXTDqSDDoCBtJ2FkYXB0ZXIgw6AgdW4gbm91dmVsIGVudmlyb25uZW1lbnQgdGVjaG5pcXVlLiBDJ8OpdGFpdCB0csOocyBlbnJpY2hpc3NhbnQu
+```

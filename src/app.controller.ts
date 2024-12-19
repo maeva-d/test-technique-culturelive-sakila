@@ -33,7 +33,9 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Post('customer')
+  // --- ENDPOINTS --- //
+
+  @Post('customers')
   async createCustomerRoute(
     @Body()
     customerData: {
@@ -74,7 +76,7 @@ export class AppController {
 
   // -- Permettra d'obtenir les locations ciblées en fonction de leur date de retour, pour ensuite envoyer les mails en conséquence
   // -- Toutes les dates de retours auront la même heure de rendue, à la seconde près, pour faciliter le fetch des locations selon leur date retour et d'envoyer un mail selon si la date de retour est dans 5 ou 3 jours.
-  @Get('rental')
+  @Get('rentals')
   async findAllRentalsRoute(): Promise<any> {
     return this.reminderService.checkForUpcomingReturns();
   }
@@ -110,5 +112,10 @@ export class AppController {
       inventory,
       staff,
     });
+  }
+
+  @Get('rentals/emails-sent')
+  async getAllEmailsSentRoute() {
+    return this.reminderService.getAllEmailsLogs();
   }
 }

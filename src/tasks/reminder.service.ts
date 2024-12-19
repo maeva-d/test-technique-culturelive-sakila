@@ -10,13 +10,14 @@ export class ReminderService {
     private readonly prisma: PrismaService,
     private scheduleRegistery: SchedulerRegistry,
   ) {}
+  private emailsRecordArr: string[] = [];
   private readonly logger = new Logger(ReminderService.name);
 
   @Cron('0 0 12 * * *', {
     name: 'reminders',
   })
   async checkForUpcomingReturns() {
-    console.log('Cron Job exécuté');
+    console.log('Cron Job exécuté à 12h00');
 
     const today = new Date();
     const inFiveDays = adjustDate(today, 5, 23, 59, 59, 999);
@@ -36,29 +37,25 @@ export class ReminderService {
     });
 
     for (const rental of allRentals) {
-      if (rental.return_date.getTime() === inThreeDays.getTime())
+      if (rental.return_date.getTime() === inThreeDays.getTime()) {
         console.log(
           `Dernier rappel à l'intention du client n° ${rental.customer_id} : la date de retour de votre location ${rental.rental_id} est dans 3 jours.`,
         );
-      else if (rental.return_date.getTime() === inFiveDays.getTime())
+        const log = `${new Date().toISOString()} : email de rappel 2 (J-3) envoyé au client ${rental.customer_id}`;
+        this.emailsRecordArr.push(log);
+      } else if (rental.return_date.getTime() === inFiveDays.getTime()) {
         console.log(
           `Ceci est un rappel à l'intention du client n° ${rental.customer_id} : la date de retour de votre location ${rental.rental_id} est dans 5 jours.`,
         );
+        const log = `${new Date().toISOString()} : email de rappel 1 (J-5) envoyé au client ${rental.customer_id}`;
+        this.emailsRecordArr.push(log);
+      } else {
+        console.log(`${new Date().toISOString()} : pas d'emails envoyés.`);
+      }
     }
   }
 
-  getCrons() {
-    const jobs = this.scheduleRegistery.getCronJob('reminders');
-    console.log(jobs);
-    //     jobs.forEach((value, key) => {
-    //       let next;
-    //       try {
-    //         next = value.nextDates();
-    //       } catch (error) {
-    //         next = error;
-    //       }
-    //       //   this.logger.log(`job : ${key} -> next : ${next}`);
-    //       console.log(`job : ${key} -> next : ${next}`);
-    //     });
+  getAllEmailsLogs() {
+    return this.emailsRecordArr;
   }
 }
